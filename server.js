@@ -20,7 +20,7 @@ server.get("/", (req, res) => {
   res.send("Chat GPT API");
 });
 
-server.post('/api/generate', async (req, res) => {
+server.post('/api/bedtime-story', async (req, res) => {
     if (!configuration.apiKey) {
         res.status(500).json({
         error: { message: "OpenAI API key not configured, please follow instructions in README.md" }
@@ -30,7 +30,7 @@ server.post('/api/generate', async (req, res) => {
 
     const prompt = req.body.prompt || '';
 
-    if (prompt.trim().length === 0) {
+    if (prompt.length === 0) {
       res.status(400).json({
         error: {
           message: "Please enter a valid prompt",
@@ -43,7 +43,7 @@ server.post('/api/generate', async (req, res) => {
         const completion = await openai.createCompletion({
           model: "text-davinci-003",
           max_tokens: 1000,
-          prompt: `Tell me a story about a princess and a ${prompt}`,
+          prompt: `Tell me a story about a ${prompt[0]} and a ${prompt[1]}`,
           temperature: 0.6,
         });
         res.status(200).json({ result: completion.data.choices[0].text });
@@ -61,9 +61,5 @@ server.post('/api/generate', async (req, res) => {
         }
       }
 });
-
-// function generatePrompt(prompt) {
-//     return `Tell me a story about a princess and a ${prompt}`
-//   }
 
 module.exports = server;
