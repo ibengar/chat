@@ -1,11 +1,7 @@
-const express = require('express')
-const app = express()
-const port = 3001
-
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+const app = require("./server");
+require('dotenv').config()
+const port = process.env.PORT || 8080
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`Server listening on port ${port}`)
 })
